@@ -1,18 +1,22 @@
-import pandas_datareader as pdr
-import resources as rs
-import datetime as dt
+from data.StockVectorWrapper import *
+from data.EnhancedSeries import *
 
-now = dt.datetime.now()
-week_ago = now - dt.timedelta(days=7)
-dateFormat = "%Y-%m-%d"
+symbols = ['AMZN', 'LMT']
 
-end_time = now.strftime(dateFormat)
-start_time = week_ago.strftime(dateFormat)
 
-symbols = ['YHOO']
+def getNow():
+    now = datetime.datetime.now()
+    return now
 
-yahoo = pdr.tiingo.TiingoDailyReader(symbols=symbols, start=start_time, end=end_time, api_key=rs.APIKEY).read()
+
 if __name__ == '__main__':
-    print(yahoo)
-    print(end_time)
-    print('done')
+    start = getNow()
+    vector_list = WrapperFactory().setSymbols(symbols).build()
+    end = getNow()
+    print("end: ", end, "\t start:", start)
+    print("Time Elapsed: ", (end - start).total_seconds(), "s")
+
+    for x in vector_list:
+        print('-' * 75)
+        ES = x.BBHI
+        print(type(ES))
