@@ -13,12 +13,14 @@ class StockVectorWrapper:
         self.name = name
         self.getVolatilityIndicators()
         self.getTrendIndicators()
-        # self.enhance_elements()
+        self.enhance_elements()
 
     def enhance_elements(self):
         for x in self.__dict__.keys():
             if x != "df" and x != "name":
-                self.__dict__[x] = EnhancedSeries(x, self.__dict__[x])
+                ES = EnhancedSeries(x, self.__dict__[x])
+                self.df = pd.concat([self.df, ES.df], axis=1)
+                print(self.df.shape)
 
     def getVolumeIdicators(self):
         self.ADI = acc_dist_index(

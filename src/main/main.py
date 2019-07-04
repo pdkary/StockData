@@ -1,7 +1,6 @@
 from data.StockVectorWrapper import *
-from data.EnhancedSeries import *
-
-symbols = ['AMZN', 'LMT']
+import os
+symbols = ['AMZN']
 
 
 def getNow():
@@ -17,6 +16,5 @@ if __name__ == '__main__':
     print("Time Elapsed: ", (end - start).total_seconds(), "s")
 
     for x in vector_list:
-        print('-' * 75)
-        ES = x.BBHI
-        print(type(ES))
+        x.df.to_csv(os.getcwd() + r'/test.csv')
+        # ES = x['close']

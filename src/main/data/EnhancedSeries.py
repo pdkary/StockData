@@ -3,29 +3,48 @@ import pandas as pd
 
 class EnhancedSeries:
 
-    def __init__(self, series_name, series):
-        self.df = pd.DataFrame()
-        self.df[series_name] = series
-        self.series_label = series_name
-        self.add_running_mean_and_std()
+    def __init__(self, name, series):
+        self.df = pd.DataFrame(index=series.index)
+        self.series_label = name
+        self.series = series
         self.mean = series.mean()
         self.std = series.std()
 
-    def add_running_mean_and_std(self):
-        mean_name = self.series_label + "_running_mean"
-        std_name = self.series_label + "_running_std"
-        plus_std = self.series_label + "_plus_std"
-        minus_std = self.series_label + "_minus_std"
-        count = 1.0
-        sum = 0
-        self.df[mean_name] = pd.Series()
-        self.df[std_name] = pd.Series()
-        self.df[plus_std] = pd.Series()
-        self.df[minus_std] = pd.Series()
-        for i in range(len(self.df.index)):
-            sum += self.df[self.series_label].iloc[i]
-            self.df[mean_name].iat[i] = sum / count
-            self.df[std_name].iat[i] = self.df[self.series_label][:i].std() / count
-            self.df[plus_std].iat[i] = self.df[self.series_label].iloc[i] + self.df[self.series_label][:i].std()
-            self.df[minus_std].iat[i] = self.df[self.series_label].iloc[i] - self.df[self.series_label][:i].std()
+        self.mean_name = name + "_running_mean"
+        self.std_name = name + "_running_std"
+        self.plus_std = name + "_plus_std"
+        self.minus_std = name + "_minus_std"
+        self.above_sigma = name + "_above_sigma"
+
+        self.df[self.series_label] = series
+        self.analyze()
+
+    def analyze(self):
+        count = 0
+        total = 0
+        sigma = 3
+        mean_series = pd.Series()
+        std_series = pd.Series()
+        plus_std_series = pd.Series()
+        minus_std_series = pd.Series()
+        above_sigma_series = pd.Series()
+        for i, stamp in enumerate(self.series.index):
             count += 1
+            value = self.series.iloc[i]
+            std = self.series[:i].std()
+            mean = total / count
+            total += value
+            plusStd = value + sigma * std
+            minusStd = value - sigma * std
+            mean_series.at[stamp] = mean
+            std_series.at[stamp] = std
+            plus_std_series.at[stamp] = plusStd
+            minus_std_series.at[stamp] = minusStd
+            above_sigma_series.at[stamp] = 1 if value > plusStd or value < minusStd else 0
+            count += 1
+
+        self.df[self.mean_name] = mean_series
+        self.df[self.std_name] = std_series
+        self.df[self.plus_std] = plus_std_series
+        self.df[self.minus_std] = minus_std_series
+        self.df[self.above_sigma] = above_sigma_series
