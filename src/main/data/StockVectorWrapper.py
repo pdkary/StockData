@@ -1,9 +1,6 @@
 from ta import *
-import datetime
-from CustomLibs.TiingoIEXHistoricalReader import TiingoIEXHistoricalReader
-from EnhancedSeries import EnhancedSeries
-import resources as rs
-from TiingoKeys import TiingoKeys
+from src.main.data.EnhancedSeries import EnhancedSeries
+from src.main.constants.TiingoKeys import TiingoKeys
 
 
 class StockVectorWrapper:
@@ -188,30 +185,3 @@ class StockVectorWrapper:
             self.df[TiingoKeys.CLOSE.value], fillna=True)
 
 
-class WrapperFactory:
-    def __init__(self):
-        self.end = datetime.datetime.now()
-        self.start = self.end - datetime.timedelta(days=7)
-        self.symbols = []
-        self.key = rs.APIKEY
-
-    def setStart(self, start):
-        self.start = start
-        return self
-
-    def setEnd(self, end):
-        self.end = end
-        return self
-
-    def setSymbols(self, symbols):
-        self.symbols = symbols
-        return self
-
-    def build(self):
-        data = TiingoIEXHistoricalReader(
-            symbols=self.symbols,
-            start=self.start,
-            end=self.end,
-            api_key=rs.APIKEY).read()
-
-        return [StockVectorWrapper(data.loc[x, :], x) for x in self.symbols]
