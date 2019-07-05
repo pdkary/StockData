@@ -11,12 +11,12 @@ class KaryKeys(TiingoKeys):
     HIGH_RUNNING_STD = "high_running_std"
     LOW_RUNNING_STD = "low_running_std"
     CLOSE_RUNNING_STD = "close_running_std"
-    OPEN_RUNNING_STD= "open_running_std"
+    OPEN_RUNNING_STD = "open_running_std"
     VOLUME_RUNNING_STD = "volume_running_std"
 
     HIGH_PLUS_STD = "high_plus_std"
     CLOSE_PLUS_STD = "close_plus_std"
-    OPEN_PLUS_STD= "open_plus_std"
+    OPEN_PLUS_STD = "open_plus_std"
     VOLUME_PLUS_STD = "volume_plus_std"
 
     HIGH_MINUS_STD = "high_minus_std"
