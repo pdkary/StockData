@@ -1,10 +1,9 @@
 from ta import *
-import timeit
 import datetime
+from CustomLibs.TiingoIEXHistoricalReader import TiingoIEXHistoricalReader
+from EnhancedSeries import EnhancedSeries
 import resources as rs
-import pandas_datareader as pdr
-from data.EnhancedSeries import EnhancedSeries
-from constants.TiingoKeys import TiingoKeys
+from TiingoKeys import TiingoKeys
 
 
 class StockVectorWrapper:
@@ -209,7 +208,7 @@ class WrapperFactory:
         return self
 
     def build(self):
-        data = pdr.tiingo.TiingoIEXHistoricalReader(
+        data = TiingoIEXHistoricalReader(
             symbols=self.symbols,
             start=self.start,
             end=self.end,

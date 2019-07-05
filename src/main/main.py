@@ -1,5 +1,6 @@
-from data.StockVectorWrapper import *
+from StockVectorWrapper import *
 import os
+
 symbols = ['AMZN']
 
 
