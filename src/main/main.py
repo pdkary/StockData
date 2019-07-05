@@ -1,5 +1,6 @@
-from StockVectorWrapper import *
+from StockVectorWrapper import WrapperFactory
 import os
+import datetime
 
 symbols = ['AMZN']
 
