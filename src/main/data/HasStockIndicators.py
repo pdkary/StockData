@@ -2,31 +2,27 @@ from ta import *
 from src.main.constants.TiingoKeys import TiingoKeys
 from src.main.data.EnhancedSeries import EnhancedSeries
 import pandas as pd
+from tqdm import tqdm
 import os
-
-
 
 class HasStockIndicators:
 
     def __init__(self, dataframe, name):
         self.name = name
         if type(dataframe) is str:
-            self.df = pd.read_csv(dataframe)
+            self.df = pd.read_csv(dataframe).fillna(value=0)
         if type(dataframe) is pd.DataFrame:
             self.df = dataframe
             self.getIndicators()
 
     def enhance_elements(self):
-        expected_size = 0
-        for x in self.__dict__.keys():
-            cols = self.df.shape[1]
-            if expected_size == 0:
-                expected_size = cols * 51
-            percent = cols / expected_size;
-            if x != "df" and x != "name":
-                ES = EnhancedSeries(x, self.__dict__[x])
-                self.df = pd.concat([self.df, ES.df], axis=1)
-                print(f'Enhancing\tProgress: {round(percent * 1000) / 10}%')
+        print("Enhancing: " + self.name)
+        for x in tqdm([x for x in self.__dict__.keys() if x != "df" and x != "name"]):
+            ES = EnhancedSeries(x, self.__dict__[x])
+            self.df = pd.concat([self.df, ES.df], axis=1)
+            self.df.reset_index()
+            self.df.fillna()
+            self.df.to_csv(os.pardir + r'/' + self.name + r'.csv')
 
     def getVolumeIdicators(self):
         self.ADI = acc_dist_index(

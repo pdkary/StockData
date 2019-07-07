@@ -7,12 +7,22 @@ class StockVectorWrapper(HasStockIndicators):
         super(StockVectorWrapper, self).__init__(*args, **kwargs)
         self.enhance_elements()
 
-    def vectorize(self):
-        self.mean_vector = np.ndarray((1, self.df.shape[1]))
-        self.std_vector = np.ndarray((1, self.df.shape[1]))
-        for column_label in self.df.columns:
-            if column_label != 'date':
-                mean = self.df[column_label].mean()
-                std = self.df[column_label].std()
-                np.append(self.mean_vector, mean)
-                np.append(self.std_vector, std)
+    def floatinate(self):
+        for x in self.df.columns:
+            if (x != 'date'):
+                self.df[x] = self.df[x].astype('float64')
+
+    @property
+    def vector(self):
+        eig_ndarr = np.ndarray((211, 1))
+        self.floatinate()
+        mat = self.df.loc[:, self.df.columns != 'date']
+        s = mat.values.transpose().dot(mat.values)
+        eigval, eigvec = np.linalg.eig(s)
+        for x in eigvec[0]:
+            np.append(eig_ndarr, x)
+        return eig_ndarr
+
+    @property
+    def shape(self):
+        return self.df.shape

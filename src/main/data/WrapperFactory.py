@@ -31,7 +31,7 @@ class WrapperFactory:
         return self
 
     @property
-    def build(self):
+    def as_list(self):
         new_symbols = [x for x in self.symbols if x not in self.csvs]
         old_symbols = [x for x in self.symbols if x in self.csvs]
         out = []
