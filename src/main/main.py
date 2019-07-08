@@ -1,37 +1,13 @@
 from src.main.data.WrapperFactory import WrapperFactory
-import datetime
-import bs4 as bs
-import pickle
-import requests
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
-
-
-def save_sp500_tickers():
-    resp = requests.get('http://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
-    soup = bs.BeautifulSoup(resp.text, 'lxml')
-    table = soup.find('table', {'class': 'wikitable sortable'})
-    tickers = []
-    for row in table.findAll('tr')[1:]:
-        ticker = row.findAll('td')[0].text
-        tickers.append(ticker)
-
-    with open("sp500tickers.pickle", "wb") as f:
-        pickle.dump(tickers, f)
-
-    return [x.rstrip() for x in tickers[1::5]]
-
-
-def getNow():
-    now = datetime.datetime.now()
-    return now
-
+from src.main.utils.utils import *
 
 if __name__ == '__main__':
     symbols = save_sp500_tickers()
     start = getNow()
     wrapper_list = WrapperFactory().setSymbols(symbols).as_list
-    if(len(wrapper_list)):
+    if len(wrapper_list):
         vector_list = [x.vector for x in wrapper_list]
         vector_arr = np.ndarray((len(vector_list), vector_list[0].shape[0]))
         for x in vector_list:

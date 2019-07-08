@@ -6,3 +6,4 @@
 *.xml
 *.iml
 venv/*
+.idea/*
