@@ -7,8 +7,9 @@ import os
 
 class HasStockIndicators:
 
-    def __init__(self, dataframe, name):
+    def __init__(self, dataframe, name, close):
         self.name = name
+        self.next_close = close
         if type(dataframe) is str:
             self.df = pd.read_csv(dataframe).fillna(value=0)
         if type(dataframe) is pd.DataFrame:

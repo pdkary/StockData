@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import pandas as pd
@@ -79,7 +80,7 @@ class TiingoIEXHistoricalReader(_BaseReader):
     def _read_lines(self, out):
         df = pd.DataFrame(out)
         df['symbol'] = self._symbol
-        df['date'] = pd.to_datetime(df['date'])
+        df['date'] = pd.to_datetime(df['date']) if 'date' in df.keys() else datetime.datetime.now()
         df = df.set_index(['symbol', 'date'])
         return df
 
