@@ -4,7 +4,7 @@ from pandas_datareader.tiingo import TiingoDailyReader
 
 from src.resources.CustomLibs.TiingoIEXHistoricalReader import TiingoIEXHistoricalReader
 import src.resources.resources as rs
-from src.main.data.StockVectorWrapper import StockVectorWrapper
+from src.main.analytics.StockVectorWrapper import StockVectorWrapper
 import glob
 import pandas as pd
 import os
