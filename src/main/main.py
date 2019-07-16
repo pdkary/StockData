@@ -1,8 +1,6 @@
 from src.main.db.MongoConnector import MongoConnector
 
 if __name__ == '__main__':
-    m = MongoConnector()
-    m.test()
     # symbols = save_sp500_tickers()
     # start = getNow()
     # wrapper_list = WrapperFactory().setSymbols(symbols).as_list
