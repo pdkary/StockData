@@ -1,6 +1,6 @@
 from ta import *
-from src.main.constants.TiingoKeys import TiingoKeys
-from src.main.data.EnhancedSeries import EnhancedSeries
+from constants import TiingoKeys
+from data import EnhancedSeries
 import pandas as pd
 from tqdm import tqdm
 import os

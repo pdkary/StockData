@@ -1,4 +1,4 @@
-from src.main.data.HasStockIndicators import HasStockIndicators
+from data import HasStockIndicators
 import numpy as np
 
 

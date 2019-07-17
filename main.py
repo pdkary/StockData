@@ -1,7 +1,7 @@
-from src.main.data.WrapperFactory import WrapperFactory
+from data import WrapperFactory
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
-from src.main.utils.utils import *
+from utils.utils import *
 
 if __name__ == '__main__':
     symbols = save_sp500_tickers()
