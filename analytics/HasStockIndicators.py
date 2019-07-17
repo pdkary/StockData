@@ -1,29 +1,17 @@
 from ta import *
 from constants import TiingoKeys
-from data import EnhancedSeries
 import pandas as pd
-from tqdm import tqdm
-import os
+
 
 class HasStockIndicators:
 
-    def __init__(self, dataframe, name, close):
+    def __init__(self, dataframe, name):
         self.name = name
-        self.next_close = close
         if type(dataframe) is str:
             self.df = pd.read_csv(dataframe).fillna(value=0)
         if type(dataframe) is pd.DataFrame:
             self.df = dataframe
             self.getIndicators()
-
-    def enhance_elements(self):
-        print("Enhancing: " + self.name)
-        for x in tqdm([x for x in self.__dict__.keys() if x != "df" and x != "name"]):
-            ES = EnhancedSeries(x, self.__dict__[x])
-            self.df = pd.concat([self.df, ES.df], axis=1)
-            self.df.reset_index()
-            self.df.fillna()
-            self.df.to_csv(os.pardir + r'/' + self.name + r'.csv')
 
     def getVolumeIdicators(self):
         self.ADI = acc_dist_index(
