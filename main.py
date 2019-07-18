@@ -1,6 +1,17 @@
 from utils.utils import *
+from db.MongoConnector import MongoConnector
+import pandas as pd
+
 if __name__ == '__main__':
     symbols = save_sp500_tickers()
+    client = MongoConnector()
+    df = pd.DataFrame(columns=["a", "b", "c"])
+    df.loc[len(df)] = [5, 1, 22]
+    df.loc[len(df)] = [69, 404, 5]
+    json = df.to_json()
+    client.update_collection("test",df)
+    df = client.get_collection_df("test")
+    print('done')
     # start = getNow()
     # wrapper_list = WrapperFactory().setSymbols(symbols).as_list
     # if len(wrapper_list):
